@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.taskpulse.app.model.Priority
-import com.taskpulse.app.model.Task
+import com.example.taskpulse.model.Priority
+import com.example.taskpulse.model.Task
 import com.taskpulse.app.ui.theme.Pulse
 import com.taskpulse.app.ui.theme.PulseLow
 import com.taskpulse.app.ui.theme.PulseMedium

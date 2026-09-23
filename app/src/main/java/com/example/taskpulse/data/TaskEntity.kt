@@ -1,25 +1,32 @@
-package com.taskpulse.app.model
+package com.example.taskpulse.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.example.taskpulse.model.Priority
 
-enum class Priority { LOW, MEDIUM, HIGH }
 
-@Entity
+@Entity(tableName = "Tasks")
+@TypeConverters(PriorityConverter::class)
 data class TaskEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val title: String,
     @ColumnInfo val category: String,
     @ColumnInfo val priority: Priority,
     @ColumnInfo val isDone: Boolean = false
 )
 
-// Dữ liệu giả để dựng UI trước khi nối Room — xóa khi có ViewModel + DB thật.
-val mockTasks = listOf(
-    TaskEntity(1, "Hoàn thành Unit 4 Compose Navigation", "Học tập", Priority.HIGH),
-    TaskEntity(2, "Setup Room database cho TaskPulse", "Lập trình", Priority.HIGH),
-    TaskEntity(3, "Đi chợ mua đồ ăn tuần", "Cá nhân", Priority.MEDIUM),
-    TaskEntity(4, "Đọc 10 trang sách", "Thói quen", Priority.LOW, isDone = true),
-    TaskEntity(5, "Tập thể dục 30 phút", "Thói quen", Priority.MEDIUM)
-)
+class PriorityConverter {
+    @TypeConverter
+    fun fromPriority(priority: Priority): String {
+        return priority.name
+    }
+
+    @TypeConverter
+    fun toPriority(priority: String): Priority {
+        return Priority.valueOf(priority)
+    }
+}
+
