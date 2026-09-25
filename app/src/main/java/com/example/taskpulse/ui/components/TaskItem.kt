@@ -1,4 +1,4 @@
-package com.taskpulse.app.ui.components
+package com.example.taskpulse.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,10 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskpulse.model.Priority
 import com.example.taskpulse.model.Task
-import com.taskpulse.app.ui.theme.Pulse
-import com.taskpulse.app.ui.theme.PulseLow
-import com.taskpulse.app.ui.theme.PulseMedium
-import com.taskpulse.app.ui.theme.TaskPulseTheme
+import com.example.taskpulse.ui.theme.Pulse
+import com.example.taskpulse.ui.theme.PulseLow
+import com.example.taskpulse.ui.theme.PulseMedium
+import com.example.taskpulse.ui.theme.TaskPulseTheme
 
 private fun priorityColor(priority: Priority): Color = when (priority) {
     Priority.HIGH -> Pulse
@@ -38,13 +38,15 @@ private fun priorityColor(priority: Priority): Color = when (priority) {
 fun TaskItem(
     task: Task,
     onToggleDone: (Task) -> Unit,
+    onTaskClick: (Task) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp) // dùng viền mảnh thay cho đổ bóng
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp), // dùng viền mảnh thay cho đổ bóng
+        onClick = { onTaskClick(task) }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             // Thanh màu bên trái mã hoá priority — thông tin, không phải trang trí
@@ -86,11 +88,13 @@ private fun TaskItemPreview() {
             TaskItem(
                 task = Task(1, "Hoàn thành Unit 4 Compose Navigation", "Học tập", Priority.HIGH),
                 onToggleDone = {},
+                onTaskClick = {},
                 modifier = Modifier.padding(8.dp)
             )
             TaskItem(
                 task = Task(2, "Đọc 10 trang sách", "Thói quen", Priority.LOW, isDone = true),
                 onToggleDone = {},
+                onTaskClick = {},
                 modifier = Modifier.padding(8.dp)
             )
         }

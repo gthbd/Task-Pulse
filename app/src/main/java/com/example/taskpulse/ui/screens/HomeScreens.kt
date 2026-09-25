@@ -1,4 +1,4 @@
-package com.taskpulse.app.ui.screens
+package com.example.taskpulse.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,15 +25,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskpulse.R
-import com.taskpulse.app.model.Task
-import com.taskpulse.app.model.mockTasks
-import com.taskpulse.app.ui.components.TaskItem
-import com.taskpulse.app.ui.theme.TaskPulseTheme
+import com.example.taskpulse.model.Quote
+import com.example.taskpulse.model.QuoteUiState
+import com.example.taskpulse.model.Task
+import com.example.taskpulse.model.mockTasks
+import com.example.taskpulse.ui.theme.TaskPulseTheme
+import com.example.taskpulse.ui.components.TaskItem
 
 // Đầu trang hiển thị quote/weather lấy từ REST API — hiện tại truyền text tĩnh,
 // sau này thay bằng state từ ViewModel gọi Retrofit.
 @Composable
-private fun DailyPulseStrip(message: String, modifier: Modifier = Modifier) {
+private fun DailyPulseStrip(quoteState: QuoteUiState, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -44,14 +46,30 @@ private fun DailyPulseStrip(message: String, modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         Text(text = "Hôm nay", style = MaterialTheme.typography.labelSmall)
-        Text(text = message, style = MaterialTheme.typography.bodyMedium)
+        when (quoteState) {
+            is QuoteUiState.Loading -> {
+                Text(text = "Đang tải quote...", style = MaterialTheme.typography.bodyMedium)
+            }
+            is QuoteUiState.Success -> {
+                Text(
+                    text = "\"${quoteState.quote.quote}\" — ${quoteState.quote.author}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+            is QuoteUiState.Error -> {
+                Text(text = "Không tải được câu nói hôm nay", style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+
     }
 }
 
 @Composable
 fun HomeScreen(
     tasks: List<Task>,
+    quoteState: QuoteUiState,
     onToggleDone: (Task) -> Unit,
+    onTaskClick: (Task) -> Unit,
     onAddTaskClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -65,7 +83,7 @@ fun HomeScreen(
                         painter = painterResource(id = R.drawable.add),
                         contentDescription = null
                     )
-                       },
+                },
                 text = { Text("Task mới") }
             )
         }
@@ -85,11 +103,12 @@ fun HomeScreen(
                 )
             }
             item {
-                DailyPulseStrip(message = "\"Việc hôm nay chớ để ngày mai.\"")
+                DailyPulseStrip(quoteState = quoteState)
             }
             items(tasks, key = { it.id }) { task ->
-                TaskItem(task = task, onToggleDone = onToggleDone)
+                TaskItem(task = task, onToggleDone = onToggleDone, onTaskClick = onTaskClick)
             }
+
         }
     }
 }
@@ -101,12 +120,14 @@ private fun HomeScreenPreview() {
     TaskPulseTheme {
         HomeScreen(
             tasks = tasks,
+            quoteState = QuoteUiState.Success(Quote(1, "Việc hôm nay chớ để ngày mai.", "Tục ngữ")),
             onToggleDone = { toggled ->
                 tasks = tasks.map {
                     if (it.id == toggled.id) it.copy(isDone = !it.isDone) else it
                 }
             },
-            onAddTaskClick = {}
+            onAddTaskClick = {},
+            onTaskClick = {}
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.taskpulse.app.ui.theme
+package com.example.taskpulse.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
