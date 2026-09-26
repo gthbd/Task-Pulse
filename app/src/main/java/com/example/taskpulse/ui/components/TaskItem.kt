@@ -21,17 +21,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.taskpulse.model.Priority
 import com.example.taskpulse.model.Task
 import com.example.taskpulse.ui.theme.Pulse
 import com.example.taskpulse.ui.theme.PulseLow
 import com.example.taskpulse.ui.theme.PulseMedium
 import com.example.taskpulse.ui.theme.TaskPulseTheme
 
-private fun priorityColor(priority: Priority): Color = when (priority) {
-    Priority.HIGH -> Pulse
-    Priority.MEDIUM -> PulseMedium
-    Priority.LOW -> PulseLow
+private fun priorityColor(priority: Int): Color = when (priority) {
+    3 -> Pulse
+    2 -> PulseMedium
+    else -> PulseLow
 }
 
 @Composable
@@ -86,13 +85,13 @@ private fun TaskItemPreview() {
     TaskPulseTheme {
         Column {
             TaskItem(
-                task = Task(1, "Hoàn thành Unit 4 Compose Navigation", "Học tập", Priority.HIGH),
+                task = Task(1, "Hoàn thành Unit 4 Compose Navigation", "Học tập", 3),
                 onToggleDone = {},
                 onTaskClick = {},
                 modifier = Modifier.padding(8.dp)
             )
             TaskItem(
-                task = Task(2, "Đọc 10 trang sách", "Thói quen", Priority.LOW, isDone = true),
+                task = Task(2, "Đọc 10 trang sách", "Thói quen", 1, isDone = true),
                 onToggleDone = {},
                 onTaskClick = {},
                 modifier = Modifier.padding(8.dp)

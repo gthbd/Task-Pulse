@@ -29,3 +29,20 @@ fun Task.toEntity(): TaskEntity = TaskEntity(
     isDone = isDone
 )
 
+fun priorityConverter(priorityInt: Int): String {
+    return when (priorityInt) {
+        1 -> "Thấp"
+        2 -> "Trung bình"
+        3 -> "Cao"
+        else -> "Trung bình"
+    }
+}
+
+fun priorityToInt(priorityStr: String): Int {
+    return when (priorityStr.lowercase()) {
+        "thấp", "thấp", "1" -> 1
+        "cao", "cao", "3" -> 3
+        else -> 2
+    }
+}
+

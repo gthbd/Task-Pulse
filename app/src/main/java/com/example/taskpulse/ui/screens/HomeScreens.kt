@@ -84,7 +84,7 @@ fun HomeScreen(
                         contentDescription = null
                     )
                 },
-                text = { Text("Task mới") }
+                text = { Text("Thêm task mới") }
             )
         }
     ) { innerPadding ->
@@ -98,7 +98,7 @@ fun HomeScreen(
         ) {
             item {
                 Text(
-                    text = "Chào Hiệp",
+                    text = "Ứng dụng quản lý công việc",
                     style = MaterialTheme.typography.headlineMedium
                 )
             }

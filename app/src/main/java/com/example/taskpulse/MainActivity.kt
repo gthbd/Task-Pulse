@@ -56,7 +56,8 @@ class MainActivity : ComponentActivity() {
                         AddEditTaskScreen(
                             taskId = taskId,
                             viewModel = viewModel,
-                            onSaveClick = { navController.popBackStack() }
+                            onSaveClick = { navController.popBackStack() },
+                            onBackClick = { navController.popBackStack() }
                         )
                     }
                 }

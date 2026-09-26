@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.taskpulse.model.Priority
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,7 +16,7 @@ interface TaskDao {
     fun getTasksByCategory(category: String): Flow<List<TaskEntity>>
 
     @Query("select * from Tasks where priority = :priority")
-    fun getTasksByPriority(priority: Priority): Flow<List<TaskEntity>>
+    fun getTasksByPriority(priority: Int): Flow<List<TaskEntity>>
 
     @Insert
     suspend fun insert(task: TaskEntity)
