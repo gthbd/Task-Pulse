@@ -8,9 +8,30 @@ class TaskRepository(private val taskDao: TaskDao) {
     val allTasks: Flow<List<Task>> = taskDao.getAllTasks()
         .map { entityList -> entityList.map { it.toTask() } }
 
+    /*
     suspend fun insert(task: Task) = taskDao.insert(task.toEntity())
     suspend fun update(task: Task) = taskDao.update(task.toEntity())
     suspend fun delete(task: Task) = taskDao.delete(task.toEntity())
+     */
+    suspend fun insert(task: Task) = taskDao.insert(
+        title = task.title,
+        category = task.category,
+        priority = task.priority,
+        isDone = task.isDone
+    )
+
+    suspend fun update(task: Task) = taskDao.update(
+        id = task.id,
+        title = task.title,
+        category = task.category,
+        priority = task.priority,
+        isDone = task.isDone
+    )
+
+    suspend fun delete(task: Task) = taskDao.delete(
+        id = task.id
+    )
+
 }
 
 fun TaskEntity.toTask(): Task = Task(
